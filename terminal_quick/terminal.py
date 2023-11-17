@@ -47,9 +47,12 @@ class Terminal(ABC):
     
     def stop(self)->None:
         """停止服务"""
-        self._start=False
-        os.close(self._fd)
-        os.kill(self._pid,9)
+        try:
+            self._start=False
+            os.close(self._fd)
+            os.kill(self._pid,9)
+        except OSError:
+            pass
 
     @abstractmethod
     def _handle(self,data:str)->None:
